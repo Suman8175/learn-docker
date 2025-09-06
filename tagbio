@@ -1,0 +1,2255 @@
+server:
+  port: 8707
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          #          multiplier: 3.0
+          #          max-interval: 300000
+          max-attempts: ${RABBITMQ_RETRY_MAX_ATTEMPTS:2}
+          initial-interval: ${RABBITMQ_RETRY_INITIAL_INTERVAL:10}
+          enabled: ${RABBITMQ_RETRY_ENABLED:true}
+    enabled: ${RABBITMQ_ENABLED:true}
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:admin}
+    password: ${RABBITMQ_PASSWORD:admin}
+    virtual-host: /
+    ssl:
+      enabled: ${RABBITMQ_SSL:false}
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:tagdev}
+    password: ${DB_PASSWORD:tagdev}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:https://keycloak-tag-pay-qa.devtomaster.com}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric/protocol/openid-connect/certs
+          token-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric/protocol/openid-connect/token
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://localhost:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:1rnbod8iDEcDjX4guTvM9mDG7g0nnz9I}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+keycloak-details:
+  user: ${KEYCLOAK_USERNAME:admin}
+  pass: ${KEYCLOAK_PASSWORD:admin}
+  client-id: ${KEYCLOAK_CLIENT_ID:admin-cli}
+  realm-master: ${KEYCLOAK_REALM_MASTER:master}
+
+include:
+  in:
+    token:
+      scope: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+password-reset-email:
+  smtp-host: ${SMTP_HOST:smtp-mail.outlook.com}
+  smtp-port: 587
+  smtp-username: ${SMTP_USERNAME:noreply@tagbiometrics.com}
+  smtp-password: ${SMTP_PASSWORD:GGfds543#@qwe135}
+  smtp-email-from: ${SMTP_EMAIL_FROM:noreply@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT:Password Reset OTP}
+  otp-length: 6
+  otp-validity: 3
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:tag}
+  tag-email: ${TAG_EMAIL:midhun_tag@outlook.com}
+
+login-attempt:
+  count: ${COUNT:3}
+  minutes: ${MINUTES:15}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+password-policy:
+  expiry: ${PASSWORD_EXPIRY:90}
+
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
+
+
+
+
+    card-holder
+
+    #security:
+#  oauth2:
+#    client:
+#      client-id: profile-service
+#      client-secret: KU4ntVYoOIwchciGPg57AYIIdpY12D0l
+#      grant-type: client_credentials
+#      scope: server
+
+server:
+  port: 9706
+  connection-timeout: 6000
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:true}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:suman@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+com:
+  tag:
+    biometrics:
+      processor:
+        name: MARQETA
+        url: ${SANDBOX_URL:https://sandbox-api.marqeta.com/v3}
+        basic-auth: ${PROCESSOR_BASIC_AUTH:Basic OWVlNThiNTgtOTdmMi00YmUzLTgxMDktODc1ODNkMTdkOGI3OmQ1ZTg2NjViLTFiM2QtNGU1YS1hYjFiLWRmMDdmNjhkMjU5Mg==}
+        username: ${MARQETA_USERNAME:9ee58b58-97f2-4be3-8109-87583d17d8b7}
+        password: ${MARQETA_PASSWORD:d5e8665b-1b3d-4e5a-ab1b-df07f68d2592}
+        operations:
+          cardholder:
+            creation:
+              path: /users
+              type: POST
+            update:
+              path: /users/{token}
+              type: PUT
+            getCardHolder:
+              path: /users/{token}
+              type: GET
+          cards:
+            cardResource:
+              path: /cards/{referenceId}/showpan?show_cvv_number
+              type: GET
+            cardResourceExpiration:
+              path: /cards/{referenceId}?fields=expiration
+              type: GET
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:true}
+
+
+
+
+card-product
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: program-service
+#      client-secret: KU4ntVYoOIwchciGPg57AYIIdpY12D0l
+#      grant-type: client_credentials
+#      scope: server
+server:
+  port: 9702
+  connection-timeout: 6000
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:500}
+    max-connections: 10000
+    accept-count: 200
+
+resttemplate:
+  max-total-connections: 10000
+  max-connections-per-route: 5000
+  connection-timeout: 5000
+  read-timeout: 5000
+  time-to-live: 300000 # 5 minutes
+  max-idle-time: 60000 # 1 minute
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+job:
+  timezone: Asia/Kolkata
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:true}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:suman@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+com:
+  tag:
+    biometrics:
+      processor:
+        name: MARQETA
+        #        url: ${SANDBOX_URL:https://bcaas-dev.marqeta.com/v3}
+        #        basic-auth: ${PROCESSOR_BASIC_AUTH:Basic YmNhYXNfc2FuZGJveF9hcGlfY29uc3VtZXI6MzlkNmU3YjQtZDYyOS00ODhhLTg5MGMtYzM5NWJlMTQ2YzNh}
+        #        username: ${MARQETA_USERNAME:bcaas_sandbox_api_consumer}
+        #        password: ${MARQETA_PASSWORD:39d6e7b4-d629-488a-890c-c395be146c3a}
+        url: ${SANDBOX_URL:https://sandbox-api.marqeta.com/v3}
+        basic-auth: ${PROCESSOR_BASIC_AUTH:Basic OWVlNThiNTgtOTdmMi00YmUzLTgxMDktODc1ODNkMTdkOGI3OmQ1ZTg2NjViLTFiM2QtNGU1YS1hYjFiLWRmMDdmNjhkMjU5Mg==}
+        username: ${MARQETA_USERNAME:9ee58b58-97f2-4be3-8109-87583d17d8b7}
+        password: ${MARQETA_PASSWORD:d5e8665b-1b3d-4e5a-ab1b-df07f68d2592}
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:true}
+
+
+
+card-service
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: program-service
+#      client-secret: KU4ntVYoOIwchciGPg57AYIIdpY12D0l
+#      grant-type: client_credentials
+#      scope: server
+
+server:
+  port: 9704
+  connection-timeout: 6000
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:500}
+    max-connections: 10000
+    accept-count: 200
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+com:
+  tag:
+    biometrics:
+      processor:
+        url: ${PROCESSOR_URL:http://localhost:9001}/processors
+        transition: cards/cardtransitions
+      date:
+        format: dd/MM/yyyy
+      account:
+        url: ${ACCOUNT_URL:http://localhost:9001}/accounts
+      profile:
+        url: ${PROFILE_URL:http://localhost:9001}/profiles
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+
+job:
+  core:
+    expiring: 0 0 0 * * *
+    expiry: 0 0 0 * * *
+
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:suman@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+
+processor:
+  mq:
+   name: MARQETA
+#        url: ${SANDBOX_URL:https://bcaas-dev.marqeta.com/v3}
+#        basic-auth: ${PROCESSOR_BASIC_AUTH:Basic YmNhYXNfc2FuZGJveF9hcGlfY29uc3VtZXI6MzlkNmU3YjQtZDYyOS00ODhhLTg5MGMtYzM5NWJlMTQ2YzNh}
+#        username: ${MARQETA_USERNAME:bcaas_sandbox_api_consumer}
+#        password: ${MARQETA_PASSWORD:39d6e7b4-d629-488a-890c-c395be146c3a}
+   url: ${SANDBOX_URL:https://sandbox-api.marqeta.com/v3}
+   basic-auth: ${PROCESSOR_BASIC_AUTH:Basic OWVlNThiNTgtOTdmMi00YmUzLTgxMDktODc1ODNkMTdkOGI3OmQ1ZTg2NjViLTFiM2QtNGU1YS1hYjFiLWRmMDdmNjhkMjU5Mg==}
+   username: ${MARQETA_USERNAME:9ee58b58-97f2-4be3-8109-87583d17d8b7}
+   password: ${MARQETA_PASSWORD:d5e8665b-1b3d-4e5a-ab1b-df07f68d2592}
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:true}
+
+
+client service
+
+#security:
+#  oauth2:
+#    client:
+#      client-id: program-service
+#      client-secret: KU4ntVYoOIwchciGPg57AYIIdpY12D0l
+#      grant-type: client_credentials
+#      scope: server
+
+server:
+  port: 9705
+  connection-timeout: 6000
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:10000}
+      min-spare: ${TOMCAT_THREADS_MIN:500}
+    max-connections: 10000
+    accept-count: 200
+
+#threadpool:
+#  core-pool-size: 200
+#  max-pool-size: 1000
+#  queue-capacity: 500
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:l198VYHDrEgmKr4VzDCwSIuAf8IUX7qj}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:farsin@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:true}
+
+
+diva service
+
+
+
+server:
+  port: 8709
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:0ywB3AnXiCOUp50K3mOYNCl2k3tORx0w}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:farsin@tagbiometrics.com}
+
+program:
+  name: taghpj
+
+diva:
+  username: 3103e0df-8619-44a4-ae9f-01c7ba332944
+  password: 2a4ec151-34a7-461b-8979-05125fb9f5f3
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+
+
+eureka service
+
+server:
+  port: 8761
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+  server:
+    peer-node-read-timeout-ms: ${EUREKA_SERVER_NODE_READ_TIMEOUT:30000}
+    connect-timeout-ms: ${EUREKA_SERVER_CONNECTION_TIMEOUT:30000}
+  instance:
+    leaseRenewalIntervalInSeconds: ${EUREKA_SERVER_LEASE_RENEWAL_INTERVAL:30}
+    leaseExpirationDurationInSeconds: ${EUREKA_SERVER_LEASE_EXPIRATION_DURATION:90}
+
+logging:
+  level:
+    org:
+      springframework:
+        boot: INFO
+        web: INFO
+
+spring:
+  security:
+    basic:
+      enabled: ${DISCOVERY_SECURITY_ENABLED:false}
+    user:
+      name: ${DISCOVERY_USER_NAME:admin}
+      password: ${DISCOVERY_USER_PASSWORD:admin}
+  # PostgreSQL
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  # Redis
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  # RabbitMQ
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:username}
+    password: ${RABBITMQ_PASSWORD:password}
+    ssl:
+      enabled: ${RABBITMQ_SSL:false}
+  # Email
+  mail:
+    host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+    port: ${SMTP_PORT_INTERNAL_SERVER:587}
+    username: ${SMTP_USERNAME_INTERNAL_SERVER:sumandevkota.work@gmail.com}
+    password: ${SMTP_PASSWORD_INTERNAL_SERVER:qwiu jxrj lqnh yqmz}
+    transport:
+      protocol: ${SMTP_PROTOCOL:smtp}
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: ${SMTP_SSL_ENABLE:false}
+          auth: ${SMTP_AUTH:true}
+          starttls:
+            enable: ${SMTP_TLS_ENABLE:true}
+
+connection:
+  check:
+    enabled: ${CONNECTION_CHECK_ENABLED:false}
+    interval: ${CONNECTION_CHECK_INTERVAL:1800000}  # 30 minutes
+  mail-receiver: ${CONNECTION_CHECK_EMAIL_RECEIVER:suman@tagbiometrics.com}
+
+
+
+
+  gateway
+
+  server:
+  port: 9001
+spring:
+  main:
+    web-application-type: reactive
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]': # ✅ apply to all routes
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+            allowCredentials: false
+      default-filter:
+        - TokenRelay
+      routes:
+        - id: program-service
+          uri: lb://card-product-service
+          predicates:
+            - Path=/cardProduct/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: programCircuitBreaker
+                fallbackUri: forward:/fallback/programFallback
+        - id: client-service
+          uri: lb://client-service
+          predicates:
+            - Path=/clients/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: clientCircuitBreaker
+                fallbackUri: forward:/fallback/clientFallback
+        - id: diva-service
+          uri: lb://diva-service
+          predicates:
+            - Path=/diva/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: clientCircuitBreaker
+                fallbackUri: forward:/fallback/clientFallback
+        - id: profile-service
+          uri: lb://card-holder-service
+          predicates:
+            - Path=/cardHolder/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: profileCircuitBreaker
+                fallbackUri: forward:/fallback/profileFallback
+        - id: account-service
+          uri: lb://card-service
+          predicates:
+            - Path=/cards/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: accountCircuitBreaker
+                fallbackUri: forward:/fallback/accountFallback
+        - id: processor-service
+          uri: lb://processor-service
+          predicates:
+            - Path=/processors/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: processorCircuitBreaker
+                fallbackUri: forward:/fallback/processorFallback
+        - id: usermanagement-service
+          uri: lb://usermanagement-service
+          predicates:
+            - Path=/usermanagement/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: userManagementCircuitBreaker
+                fallbackUri: forward:/fallback/userManagementFallback
+        - id: marqeta-service
+          uri: lb://marqeta-service
+          predicates:
+            - Path=/mqa/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: marqetaCircuitBreaker
+                fallbackUri: forward:/fallback/marqetaFallback
+        - id: webhook-service
+          uri: lb://webhook-service
+          predicates:
+            - Path=/webhook/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: webhookCircuitBreaker
+                fallbackUri: forward:/fallback/webhookFallback
+        - id: jit-service
+          uri: lb://jit-service
+          predicates:
+            - Path=/jit/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: jitCircuitBreaker
+                fallbackUri: forward:/fallback/jitFallback
+        - id: three-ds-service
+          uri: lb://three-ds-service
+          predicates:
+            - Path=/three-ds/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: threeDsCircuitBreaker
+                fallbackUri: forward:/fallback/threeDsFallback
+        - id: tokenization-service
+          uri: lb://tokenization-service
+          predicates:
+            - Path=/tokenization/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: tokenizationCircuitBreaker
+                fallbackUri: forward:/fallback/tokenizationFallback
+        - id: if-service
+          uri: lb://if-service
+          predicates:
+            - Path=/if/**
+          filters:
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: ifCircuitBreaker
+                fallbackUri: forward:/fallback/ifFallback
+
+        - id: usermanagement-service-v1
+          uri: lb://usermanagement-service
+          predicates:
+            - Path=/v1/usermanagement/**
+          filters:
+            - RewritePath=/v1/usermanagement/(?<remaining>.*), /usermanagement/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: userManagementCircuitBreaker
+                fallbackUri: forward:/fallback/userManagementFallback
+        - id: program-service-v1
+          uri: lb://card-product-service
+          predicates:
+            - Path=/v1/cardProduct/**
+          filters:
+            - RewritePath=/v1/cardProduct/(?<remaining>.*), /cardProduct/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: programCircuitBreaker
+                fallbackUri: forward:/fallback/programFallback
+        - id: client-service-v1
+          uri: lb://client-service
+          predicates:
+            - Path=/v1/clients/**
+          filters:
+            - RewritePath=/v1/clients/(?<remaining>.*), /clients/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: clientCircuitBreaker
+                fallbackUri: forward:/fallback/clientFallback
+        - id: diva-service-v1
+          uri: lb://diva-service
+          predicates:
+            - Path=/v1/diva/**
+          filters:
+            - RewritePath=/v1/diva/(?<remaining>.*), /diva/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: clientCircuitBreaker
+                fallbackUri: forward:/fallback/clientFallback
+        - id: profile-service-v1
+          uri: lb://card-holder-service
+          predicates:
+            - Path=/v1/cardHolder/**
+          filters:
+            - RewritePath=/v1/cardHolder/(?<remaining>.*), /cardHolder/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: profileCircuitBreaker
+                fallbackUri: forward:/fallback/profileFallback
+        - id: account-service-v1
+          uri: lb://card-service
+          predicates:
+            - Path=/v1/cards/**
+          filters:
+            - RewritePath=/v1/cards/(?<remaining>.*), /cards/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: accountCircuitBreaker
+                fallbackUri: forward:/fallback/accountFallback
+        - id: processor-service-v1
+          uri: lb://processor-service
+          predicates:
+            - Path=/v1/processors/**
+          filters:
+            - RewritePath=/v1/processors/(?<remaining>.*), /processors/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: processorCircuitBreaker
+                fallbackUri: forward:/fallback/processorFallback
+        - id: marqeta-service-v1
+          uri: lb://marqeta-service
+          predicates:
+            - Path=/v1/mqa/**
+          filters:
+            - RewritePath=/v1/mqa/(?<remaining>.*), /mqa/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: marqetaCircuitBreaker
+                fallbackUri: forward:/fallback/marqetaFallback
+        - id: webhook-service-v1
+          uri: lb://webhook-service
+          predicates:
+            - Path=/v1/webhook/**
+          filters:
+            - RewritePath=/v1/webhook/(?<remaining>.*), /webhook/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: webhookCircuitBreaker
+                fallbackUri: forward:/fallback/webhookFallback
+        - id: jit-service-v1
+          uri: lb://jit-service
+          predicates:
+            - Path=/v1/jit/**
+          filters:
+            - RewritePath=/v1/jit/(?<remaining>.*), /jit/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: jitCircuitBreaker
+                fallbackUri: forward:/fallback/jitFallback
+        - id: three-ds-service-v1
+          uri: lb://three-ds-service
+          predicates:
+            - Path=/v1/three-ds/**
+          filters:
+            - RewritePath=/v1/three-ds/(?<remaining>.*), /three-ds/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: threeDsCircuitBreaker
+                fallbackUri: forward:/fallback/threeDsFallback
+        - id: tokenization-service-v1
+          uri: lb://tokenization-service
+          predicates:
+            - Path=/v1/tokenization/**
+          filters:
+            - RewritePath=/v1/tokenization/(?<remaining>.*), /tokenization/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: tokenizationCircuitBreaker
+                fallbackUri: forward:/fallback/tokenizationFallback
+        - id: if-service-v1
+          uri: lb://if-service
+          predicates:
+            - Path=/v1/if/**
+          filters:
+            - RewritePath=/v1/if/(?<remaining>.*), /if/${remaining}
+            - TagBiometricGatewayFilter
+            - TokenRelay=
+            - RemoveResponseHeader=Server
+            - name: CircuitBreaker
+              args:
+                name: ifCircuitBreaker
+                fallbackUri: forward:/fallback/ifFallback
+    eureka:
+      instance:
+        prefer-ip-address: false
+      client:
+        service-url:
+          defaultZone: http://localhost:8761/eureka/
+
+  security:
+    oauth2:
+# below resourceserver section is added to bind the common service dependency error free run.
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric/protocol/openid-connect/certs
+      client:
+        provider:
+          keycloak:
+            token-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/token
+            issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+            jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+            user-info-authentication-method: header
+            admin-cli: ${KEYCLOAK_CLIENT_ID:admin-cli}
+            auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+            realm: ${KEYCLOAK_REALM:tag-biometric}
+            realm-bcaas: ${KEYCLOAK_INTERNAL_REALM:bcaas-internal}
+            realm-bcaas-clientSecret: ${KEYCLOAK_INTERNAL_CLIENT_SECRET:cukK8heAjhzPOe3ff8hhzIQmnqjMdHR4}
+            clientSecret: ${KEYCLOAK_CLIENT_SECRET:l198VYHDrEgmKr4VzDCwSIuAf8IUX7qj}
+            webhook-url: ${WEBHOOK_URL:/webhook/mqa}
+            jit-funding-url: ${JIT_FUNDING_URL:/jit/mqa/gateway/mqa}
+            three-ds-url: ${THREE_DS_URL:/three-ds/challenge-result}
+            authentication-response-url: ${AUTHENTICATION_RESPONSE_URL:/three-ds/authentication-result}
+            authentication-request-url: ${AUTHENTICATION_REQUEST_URL:/three-ds/authentication}
+            authorization: Authorization
+        registration:
+          tag-pay-gateway-client:
+            provider: keycloak
+            client-id: ${KEYCLOAK_RESOURCE:gateway-service}
+            client-secret: ${KEYCLOAK_CLIENT_SECRET:1rnbod8iDEcDjX4guTvM9mDG7g0nnz9I}
+            authorization-grant-type: authorization_code
+            redirect-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/login/oauth2/code/keycloak
+
+encryption:
+  value: false
+  key: Thisisatestkeyfortesting
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    registryFetchIntervalSeconds: ${REGISTRY_FETCH_INTERVAL_SECONDS:15}
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+keycloak-details:
+  user: ${KEYCLOAK_USERNAME:admin}
+  pass: ${KEYCLOAK_PASSWORD:admin}
+  client-id: ${KEYCLOAK_CLIENT_ID:admin-cli}
+  realm-master: ${KEYCLOAK_REALM_MASTER:master}
+
+rate-limiter:
+  limit: ${RATE_LIMITER_LIMIT:50000}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:sumandevkota.work@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:qwiu jxrj lqnh yqmz}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:suman@tagbiometrics.com}
+
+health-check:
+  card-holder-service: http://card-holder-service/cardHolder/actuator/health
+  card-management-service: http://card-service/cards/actuator/health
+  card-product-service: http://card-product-service/cardProduct/actuator/healths
+  client-service: http://client-service/clients/actuator/health
+  processor-service: http://processor-service/processors/actuator/health
+  three-de-service: http://three-ds-service/three-ds/actuator/health
+  tokenization-service: http://tokenization-service/tokenization/actuator/health
+  user-management-service: http://usermanagement-service/usermanagement/actuator/health
+  webhook-service: http://webhook-service/webhook/actuator/health
+  recipient-email: ${HEALTH_CHECK_RECIPIENT_EMAIL:suman@tagbiometrics.com}
+
+health-check-request:
+  send-health-check: ${SERVICE_HEALTH_CHECK:false}
+  initial-delay: ${SERVICE_HEALTH_CHECK_INITIAL_DELAY:600000}
+  fixed-rate: ${SERVICE_HEALTH_CHECK_INTERVAL:300000}
+
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+
+if
+
+server:
+  port: 9820
+  max-http-header-size: 1024KB
+  netty:
+    max-threads: 5000
+  http2:
+    enabled: true
+
+spring:
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+  reactive:
+    web:
+      server:
+        thread-pool:
+          max-size: 5000
+  r2dbc:
+    url: ${IF_DATABASE_URL:r2dbc:postgresql://localhost:5432/tagbiometric}
+    username: ${IF_DB_USERNAME:postgres}
+    password: ${IF_DB_PASSWORD:suman}
+  sql:
+    init:
+      platform: postgres
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          #          multiplier: 3.0
+          #          max-interval: 300000
+          max-attempts: ${RABBITMQ_RETRY_MAX_ATTEMPTS:2}
+          initial-interval: ${RABBITMQ_RETRY_INITIAL_INTERVAL:10}
+          enabled: ${RABBITMQ_RETRY_ENABLED:true}
+    enabled: ${RABBITMQ_ENABLED:true}
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:username}
+    password: ${RABBITMQ_PASSWORD:password}
+    virtual-host: /
+    ssl:
+      enabled: ${RABBITMQ_SSL:false}
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://localhost:8080}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    transport:
+      client: webclient
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:true}
+
+sandbox:
+  url: ${IF_SANDBOX_URL:https://sandbox-api.integrated.finance/v1/tag}
+  private_key_location: ${IF_SANDBOX_PRIVATE_KEY_LOCATION:C:\pri\tag-if-private-key.pem}
+  client_id: ${IF_SANDBOX_CLIENT_ID:sandbox@tag.iam.ifserviceaccount.com}
+
+
+
+jit
+
+server:
+  port: 9658
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs,${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/bcaas-internal/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+keycloak-bcaas-internal:
+  realm: ${KEYCLOAK_INTERNAL_REALM:bcaas-internal}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_INTERNAL_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_INTERNAL_CLIENT_SECRET:g4IhXNyH2zZkrPTIWo2FLMa1rgtiBsNo}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+keycloak-details:
+  user: ${KEYCLOAK_USERNAME:admin}
+  pass: ${KEYCLOAK_PASSWORD:admin}
+  client-id: ${KEYCLOAK_CLIENT_ID:admin-cli}
+  realm-master: ${KEYCLOAK_REALM_MASTER:master}
+
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+encryption:
+  key: ${ENCRYPTION_KEY:Thisisatestkeyfortesting}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:suman@tagbiometrics.com}
+
+com:
+  tag:
+    biometrics:
+      simulations:
+        processor:
+          name: MARQETA
+          url: ${SANDBOX_URL:https://sandbox-api.marqeta.com/v3}
+          basic-auth: ${PROCESSOR_BASIC_AUTH:Basic OWVlNThiNTgtOTdmMi00YmUzLTgxMDktODc1ODNkMTdkOGI3OmQ1ZTg2NjViLTFiM2QtNGU1YS1hYjFiLWRmMDdmNjhkMjU5Mg==}
+          username: ${MARQETA_USERNAME:9ee58b58-97f2-4be3-8109-87583d17d8b7}
+          password: ${MARQETA_PASSWORD:d5e8665b-1b3d-4e5a-ab1b-df07f68d2592}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:false}
+
+warmup:
+  user: ${WARMUP_USERNAME:warmup}
+  password: ${WARMUP_USER_PASSWORD:warmup#321}
+
+
+marqeta
+
+server:
+  port: 9801
+  connection-timeout: 6000
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:10000}
+      min-spare: ${TOMCAT_THREADS_MIN:500}
+    max-connections: 10000
+    accept-count: 200
+
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:https://keycloak-tag-pay-qa.devtomaster.com}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://localhost:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+resttemplate:
+  max-total-connections: 10000
+  max-connections-per-route: 5000
+  connection-timeout: 5000
+  read-timeout: 5000
+  time-to-live: 300000 # 5 minutes
+  max-idle-time: 60000 # 1 minute
+
+com:
+  tag:
+    biometrics:
+      processor:
+        name: MARQETA
+        url: ${SANDBOX_URL:https://bcaas-dev.marqeta.com/v3}
+        basic-auth: ${PROCESSOR_BASIC_AUTH:Basic YmNhYXNfc2FuZGJveF9hcGlfY29uc3VtZXI6MzlkNmU3YjQtZDYyOS00ODhhLTg5MGMtYzM5NWJlMTQ2YzNh}
+        username: ${MARQETA_USERNAME:bcaas_sandbox_api_consumer}
+        password: ${MARQETA_PASSWORD:39d6e7b4-d629-488a-890c-c395be146c3a}
+#        url: ${SANDBOX_URL:https://sandbox-api.marqeta.com/v3}
+#        basic-auth: ${PROCESSOR_BASIC_AUTH:Basic OWVlNThiNTgtOTdmMi00YmUzLTgxMDktODc1ODNkMTdkOGI3OmQ1ZTg2NjViLTFiM2QtNGU1YS1hYjFiLWRmMDdmNjhkMjU5Mg==}
+#        username: ${MARQETA_USERNAME:9ee58b58-97f2-4be3-8109-87583d17d8b7}
+#        password: ${MARQETA_PASSWORD:d5e8665b-1b3d-4e5a-ab1b-df07f68d2592}
+        operations:
+          cardholder:
+            creation:
+              path: /users
+              type: POST
+            update:
+              path: /users/{token}
+              type: PUT
+            getCardHolder:
+              path: /users/{token}
+              type: GET
+          cards:
+            cardResource:
+              path: /cards/{referenceId}/showpan?show_cvv_number
+              type: GET
+            cardResourceExpiration:
+              path: /cards/{referenceId}?fields=expiration
+              type: GET
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://localhost:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:farsin@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+
+
+processor
+
+
+server:
+  port: 9707
+  connection-timeout: 6000
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:farsin@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+
+
+3ds
+
+server:
+  port: 9663
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  mvc:
+    servlet:
+      load-on-startup: 1
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric,${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/bcaas-internal
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs,${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/bcaas-internal/protocol/openid-connect/certs
+  liquibase:
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:XRBy9utQwJWoiqAtWrgOUn3VpXn5HAhP}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+keycloak-bcaas-internal:
+  realm: ${KEYCLOAK_INTERNAL_REALM:bcaas-internal}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_INTERNAL_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_INTERNAL_CLIENT_SECRET:cukK8heAjhzPOe3ff8hhzIQmnqjMdHR4}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+keycloak-details:
+  user: ${KEYCLOAK_USERNAME:admin}
+  pass: ${KEYCLOAK_PASSWORD:admin}
+  client-id: ${KEYCLOAK_CLIENT_ID:admin-cli}
+  realm-master: ${KEYCLOAK_REALM_MASTER:master}
+
+processor:
+  marqeta:
+    authentication-url: ${MQ_3DS_AUTHENTICATION_URL:https://authentication-acs.marqeta.com/v3/three-ds/authentication-result}
+    username: ${MARQETA_USERNAME:bcaas_sandbox_api_consumer}
+    password: ${MARQETA_PASSWORD:55935c3d-5c5c-43aa-80ab-26cc844db456}
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:farsin@tagbiometrics.com}
+
+three-ds:
+  acs-transaction-redis-validity: ${THREEDS_ACS_TRANSACTION_REDIS_VALIDITY:10}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411}/api/v2/spans
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:true}
+
+warmup:
+  user: ${WARMUP_USERNAME:warmup}
+  password: ${WARMUP_USER_PASSWORD:warmup#321}
+
+
+
+usermanagement
+
+server:
+  port: 8707
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          #          multiplier: 3.0
+          #          max-interval: 300000
+          max-attempts: ${RABBITMQ_RETRY_MAX_ATTEMPTS:2}
+          initial-interval: ${RABBITMQ_RETRY_INITIAL_INTERVAL:10}
+          enabled: ${RABBITMQ_RETRY_ENABLED:true}
+    enabled: ${RABBITMQ_ENABLED:true}
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:username}
+    password: ${RABBITMQ_PASSWORD:password}
+    virtual-host: /
+    ssl:
+      enabled: ${RABBITMQ_SSL:false}
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs
+          token-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/token
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080/}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:l198VYHDrEgmKr4VzDCwSIuAf8IUX7qj}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+keycloak-details:
+  user: ${KEYCLOAK_USERNAME:admin}
+  pass: ${KEYCLOAK_PASSWORD:admin}
+  client-id: ${KEYCLOAK_CLIENT_ID:admin-cli}
+  realm-master: ${KEYCLOAK_REALM_MASTER:master}
+
+include:
+  in:
+    token:
+      scope: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+password-reset-email:
+  smtp-host: ${SMTP_HOST:smtp-mail.outlook.com}
+  smtp-port: 587
+  smtp-username: ${SMTP_USERNAME:noreply@tagbiometrics.com}
+  smtp-password: ${SMTP_PASSWORD:GGfds543#@qwe135}
+  smtp-email-from: ${SMTP_EMAIL_FROM:noreply@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT:Password Reset OTP}
+  otp-length: 6
+  otp-validity: 3
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:farsin.workk@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:guygqrnnddshenab}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:farsin@tagbiometrics.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:tag}
+  tag-email: ${TAG_EMAIL:midhun_tag@outlook.com}
+
+login-attempt:
+  count: ${COUNT:3}
+  minutes: ${MINUTES:15}
+
+rate-limiter:
+  login:
+    max-attempts: ${COUNT:5}
+    timeframe: ${MINUTES:1}
+    blocked-duration: ${MINUTES:1440}
+  password-reset:
+    max-attempts: ${COUNT:5}
+    timeframe: ${MINUTES:1440}
+    blocked-duration: ${MINUTES:1440}
+  send-otp:
+    max-attempts: ${COUNT:10}
+    timeframe: ${MINUTES:1440}
+    blocked-duration: ${MINUTES:1440}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+password-policy:
+  expiry: ${PASSWORD_EXPIRY:90}
+
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
+
+
+
+webhook
+
+server:
+  port: 9804
+  max-http-header-size: 1024KB
+  tomcat:
+    threads:
+      max: ${TOMCAT_THREADS_MAX:1000}
+      min-spare: ${TOMCAT_THREADS_MIN:50}
+
+spring:
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+#          multiplier: 3.0
+#          max-interval: 300000
+          max-attempts: ${RABBITMQ_RETRY_MAX_ATTEMPTS:2}
+          initial-interval: ${RABBITMQ_RETRY_INITIAL_INTERVAL:10}
+          enabled: ${RABBITMQ_RETRY_ENABLED:true}
+    enabled: ${RABBITMQ_ENABLED:true}
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:username}
+    password: ${RABBITMQ_PASSWORD:password}
+    virtual-host: /
+    ssl:
+      enabled: ${RABBITMQ_SSL:false}
+  datasource:
+    hikari:
+      maximum-pool-size: 50
+      minimum-idle: 10
+      idle-timeout: 30000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tagbiometric}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:suman}
+  jpa:
+    hibernate:
+      ddl-auto: none
+      show-sql: false
+    properties:
+      hibernate:
+        id:
+          db_structure_naming_strategy: legacy
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric,${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/bcaas-internal
+          jwk-set-uri: ${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/tag-biometric/protocol/openid-connect/certs,${KEYCLOAK_HOST:http://172.30.94.82:8080}/realms/bcaas-internal/protocol/openid-connect/certs
+  liquibase:
+    enabled: false
+    change-log: classpath:db/changelog/liquibase-changelog.yml
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:tag-biometric}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080}
+  ssl-required: none
+  resource: ${KEYCLOAK_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET:l198VYHDrEgmKr4VzDCwSIuAf8IUX7qj}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+keycloak-bcaas-internal:
+  realm: ${KEYCLOAK_INTERNAL_REALM:bcaas-internal}
+  auth-server-url: ${AUTH_SERVER_URL:http://172.30.94.82:8080}
+  ssl-required: none
+  resource: ${KEYCLOAK_INTERNAL_RESOURCE:gateway-service}
+  credentials:
+    secret: ${KEYCLOAK_INTERNAL_CLIENT_SECRET:g4IhXNyH2zZkrPTIWo2FLMa1rgtiBsNo}
+  use-resource-role-mappings: false
+  bearer-only: true
+  public-client: true
+
+cipher:
+  secret-key: ${SECRET_KEY:this_is_the_secret_key}
+  salt-key: ${SALT_KEY:this!is!the!salt!key}
+
+webhook:
+  url: ${WEBHOOK_URL_EVENT:/webhook/mqa/event}
+  signature:
+    secret: ${WEBHOOK_SIGNATURE_SECRET:Accubits@123456789012345}
+    active: ${WEBHOOK_SIGNATURE_ACTIVE:false}
+
+logstash:
+  url: ${LOGSTASH_URL:localhost:5000}
+  show-logs: ${SHOW_LOGS:false}
+
+
+rabbitmq:
+  listener:
+    concurrency: ${RABBITMQ_CONCURRENCY_LIMIT:10}
+
+skip_words: <script,<,>,<>,<>,
+
+eureka:
+  instance:
+    prefer-ip-address: ${EUREKA_INSTANCE_IP_STATUS:false}
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_URL:http://admin:admin@localhost:8761/eureka/}
+
+swagger:
+  host: ${SWAGGER_HOST:http://localhost}
+
+email-notification:
+  smtp-host: ${SMTP_HOST_INTERNAL_SERVER:smtp.gmail.com}
+  smtp-port: ${SMTP_PORT_INTERNAL_SERVER:587}
+  smtp-username: ${SMTP_USERNAME_INTERNAL_SERVER:sumandevkota.work@gmail.com}
+  smtp-password: ${SMTP_PASSWORD_INTERNAL_SERVER:qwiu jxrj lqnh yqmz}
+  smtp-email-from: ${SMTP_EMAIL_FROM_INTERNAL_SERVER:sumandevkota.work@gmail.com}
+  smtp-email-subject: ${SMTP_EMAIL_SUBJECT_INTERNAL_SERVER:Internal Server Error}
+  otp-length: 6
+  otp-validity: 3
+  tag-username: ${TAG_USERNAME:TagBiometrics}
+  tag-email: ${TAG_EMAIL:suman@tagbiometrics.com}
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+zipkin:
+  tracing:
+    endpoint: ${ZIPKIN_URL:http://localhost:9411/api/v2/spans}
+
+logging:
+  internal:
+    enabled: ${INTERNAL_LOGGING_ENABLED:true}
+
+processor:
+  mq:
+    name: MARQETA
+    #        url: ${SANDBOX_URL:https://bcaas-dev.marqeta.com/v3}
+    #        basic-auth: ${PROCESSOR_BASIC_AUTH:Basic YmNhYXNfc2FuZGJveF9hcGlfY29uc3VtZXI6MzlkNmU3YjQtZDYyOS00ODhhLTg5MGMtYzM5NWJlMTQ2YzNh}
+    #        username: ${MARQETA_USERNAME:bcaas_sandbox_api_consumer}
+    #        password: ${MARQETA_PASSWORD:39d6e7b4-d629-488a-890c-c395be146c3a}
+    url: ${SANDBOX_URL:https://sandbox-api.marqeta.com/v3}
+    basic-auth: ${PROCESSOR_BASIC_AUTH:Basic OWVlNThiNTgtOTdmMi00YmUzLTgxMDktODc1ODNkMTdkOGI3OmQ1ZTg2NjViLTFiM2QtNGU1YS1hYjFiLWRmMDdmNjhkMjU5Mg==}
+    username: ${MARQETA_USERNAME:9ee58b58-97f2-4be3-8109-87583d17d8b7}
+    password: ${MARQETA_PASSWORD:d5e8665b-1b3d-4e5a-ab1b-df07f68d2592}
+
+

@@ -1,0 +1,68 @@
+#Container path
+#pl.parser.t068.source-directory=/app/data/source/068
+#pl.parser.t068.destination-directory-processed=/app/data/source/068/processed
+#pl.parser.t068.destination-directory-unprocessed=/app/data/source/068/unProcessed
+#pl.parser.t068.schedule=0 0/3 * ? * *
+#pl.parser.t068.filenamesCsv=src/main/resources/processedFileLog.csv
+#
+#pl.parser.t112.source-directory=/app/data/source/t112
+#pl.parser.t112.destination-directory-processed=/app/data/source/t112/processed
+#pl.parser.t112.destination-directory-unprocessed=/app/data/source/t112/unProcessed
+#pl.parser.t112.data-definition=t112-data-element-definition.xml
+#pl.parser.t112.schedule=0 0/30 * ? * *
+
+#App path
+
+pl.parser.t068.source-directory=C://zprojdata//source//068
+pl.parser.t068.destination-directory-processed=C://zprojdata//source//processed
+pl.parser.t068.destination-directory-unprocessed=C://zprojdata//source//unProcessed
+pl.parser.t068.schedule=0 0/3 * ? * *
+pl.parser.t068.data-definition=config.xml
+
+
+pl.parser.t112.source-directory=C://zprojdata//source//t112
+pl.parser.t112.destination-directory-processed=C://zprojdata//source//t112//processed
+pl.parser.t112.destination-directory-unprocessed=C://zprojdata//source//t112//unProcessed
+pl.parser.t112.data-definition=t112-data-element-definition.xml
+pl.parser.t112.schedule=0 0/30 * ? * *
+
+pl.hash-algorithm=SHA-256
+pl.hash-salt=cew8x2e9bw64c3avhpjr5rpc7n2ej0b5
+
+#spring.datasource.url=jdbc:postgresql://192.168.1.82:5432/ipm
+#spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.datasource.username=postgres
+#spring.datasource.password=postgres
+spring.datasource.url=jdbc:postgresql://localhost:5432/ipm
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.username=postgres
+spring.datasource.password=suman
+
+#spring.datasource.url=jdbc:postgresql://192.168.1.82:5433/ipm
+#spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.datasource.username=postgres
+##spring.datasource.password=postgres
+#spring.datasource.password=uBFkgWRsm9t^EO9S
+
+spring.datasource.hikari.data-source-properties.reWriteBatchedInserts=true
+
+
+
+management.endpoints.web.exposure.include=*
+
+mpe.sql.apiPath=http://192.168.1.81:5000
+
+
+# basic log level for all messages
+#logging.level.org.hibernate=info
+# SQL statements and parameters
+#logging.level.org.hibernate.SQL=debug
+#logging.level.org.hibernate.stat=debug
+#logging.level.org.hibernate.orm.jdbc.bind=trace
+## Statistics and slow queries
+#
+#logging.level.org.hibernate.SQL_SLOW=info
+# 2nd Level Cache
+#logging.level.org.hibernate.cache=debug
+
+
